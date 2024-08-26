@@ -1,21 +1,21 @@
 [
   {
-    "Id": 1,
-    "Task": "Init database",
-    "Desc": "Setup Oracle 23ai database",
-    "Status": "Not complete"
+    "id": 1,
+    "name": "Init database",
+    "description": "Setup Oracle 23ai database",
+    "completed": false
  
   },
   {
-    "Id": 2,
-    "Task": "Connect database",
-    "Desc": "Connect to database using sql",
-    "Status": "Complete"
+    "id": 2,
+    "name": "Connect database",
+    "description": "Connect to database using sql",
+    "completed": true
   },
   {
-    "Id": 3,
-    "Task": "Frontend",
-    "Desc": "Simple UI to show the list of task",
-    "Status": "Complete"
+    "id": 3,
+    "name": "Frontend",
+    "description": "Simple UI to show the list of task",
+    "completed": false
   }
 ]

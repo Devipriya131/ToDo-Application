@@ -27,31 +27,41 @@
               <div style="width:180px" class="oj-flex-item oj-sm-padding-2x-horizontal">
                 <oj-input-text
                 id="inputTask"
-                value="{{value}}"
+                value="{{txtTask}}"
                 label-hint="Enter Task"
                 label-edge="inside">
               </oj-input-text>
-            </div>
+               </div>
             <div style="width:250px" class="oj-flex-item oj-sm-padding-2x-horizontal">
               <oj-input-text
               id="inputDesc"
-              value="{{value}}"
+              value="{{txtDescription}}"
               label-hint="Enter Desc"
               label-edge="inside">
             </oj-input-text>
           </div>
             <div style="width:150px" class="oj-flex-item oj-sm-padding-2x-horizontal">
-              <oj-select-single data="[[statusDP]]" value="o" label-hint="Status"></oj-select-single>
+              <oj-select-single data="[[statusDP]]" value="{{chkCompleted}}" label-hint="Status"></oj-select-single>
     
             </div>
               <div style="width:150px" class="oj-flex-item oj-sm-padding-2x-horizontal">    
-                  <oj-button id="addButton" chroming="callToAction">Add Task</oj-button>
+                  <oj-button id="addButton" chroming="callToAction" on-oj-action= "[[addAction]]">Add Task</oj-button>
               </div>
             </oj-collapsible>
+            </div>
+       </div>
+
+       <div class="content-container">
+        <div style="width:300px; margin-bottom: 20px;">
+          <div class="inline-form">
+            <label for="search"></label>
+            <input style="width:500px; margin-bottom: 20px; margin-top: 20px; height: 30px" id="search" name="search" oj-input-text="ojComponent: {
+                component: 'ojInputText', rawValue: nameSearch}"
+                placeholder="Search by task"/>
           </div>
         </div>
-
-        <oj-table
+        
+      <oj-table
         id="table"
         aria-label=" Table"
         accessibility.row-header="name"
@@ -63,22 +73,22 @@
         columns-default.resizable="disabled"
         columns-default.sortable="disabled"
         columns='[{"headerText": "ID", 
-                   "field": "Id",
+                   "field": "id",
                    "frozenEdge": "start",
                    "id": "id"},
 
                   {"headerText": "Task",
-                  "field": "Task",
+                  "field": "name",
                    "minWidth": "12rem",
                    "id": "name"},
                   
                    {"headerText": "Description",
-                   "field": "Desc",
+                   "field": "description",
                     "minWidth": "12rem",
-                    "id": "name"},
+                    "id": "description"},
                   
                   {"headerText": "Status", 
-                   "field": "Status",
+                   "field": "completed",
                    "minWidth": "8rem",
                    "id": "status"},
                    
@@ -109,6 +119,7 @@
         </template>
     
       </oj-table>
+      </div>
       </div>
     </div>
 
