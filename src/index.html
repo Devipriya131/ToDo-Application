@@ -20,47 +20,88 @@
   <body class="oj-web-applayout-body">
     <div id="globalBody" class="oj-web-applayout-page">
       <div role="main" class="oj-web-applayout-max-width oj-web-applayout-content">
-          <div id="collapsiblePage" data-oj-binding-provider="none">
-            <oj-collapsible id="c1">
-              <h3 id="h" slot="header">Add Task</h3>
-              <div id="div1" class="oj-flex oj-sm-flex-items-initial">
-              <div style="width:180px" class="oj-flex-item oj-sm-padding-2x-horizontal">
-                <oj-input-text
-                id="inputTask"
-                value="{{txtTask}}"
-                label-hint="Enter Task"
-                label-edge="inside">
-              </oj-input-text>
-               </div>
-            <div style="width:250px" class="oj-flex-item oj-sm-padding-2x-horizontal">
-              <oj-input-text
-              id="inputDesc"
-              value="{{txtDescription}}"
-              label-hint="Enter Desc"
-              label-edge="inside">
+          <div id="collapsiblePage" data-oj-binding-provider="none">     
+       </div>
+       
+      <oj-dialog id="modalDialog1" dialog-title="Add Task" aria-describedby="desc">
+        <div slot="body">
+          <div style="width:180px" class="oj-flex-item oj-sm-padding-2x-horizontal">
+            <oj-input-text
+            style="margin-bottom: 15px"
+            id="inputTask"
+            value="{{txtTask}}"
+            label-hint="Enter Task"
+            label-edge="inside">
             </oj-input-text>
           </div>
-            <div style="width:150px" class="oj-flex-item oj-sm-padding-2x-horizontal">
-              <oj-select-single data="[[statusDP]]" value="{{chkCompleted}}" label-hint="Status"></oj-select-single>
-    
-            </div>
-              <div style="width:150px" class="oj-flex-item oj-sm-padding-2x-horizontal">    
-                  <oj-button id="addButton" chroming="callToAction" on-oj-action= "[[addAction]]">Add Task</oj-button>
-              </div>
-            </oj-collapsible>
-            </div>
-       </div>
-
-       <div class="content-container">
-        <div style="width:300px; margin-bottom: 20px;">
-          <div class="inline-form">
-            <label for="search"></label>
-            <input style="width:500px; margin-bottom: 20px; margin-top: 20px; height: 30px" id="search" name="search" oj-input-text="ojComponent: {
-                component: 'ojInputText', rawValue: nameSearch}"
-                placeholder="Search by task"/>
+          <div style="width:400px" class="oj-flex-item oj-sm-padding-2x-horizontal">
+            <oj-input-text
+            style="margin-bottom: 15px"
+            id="inputDesc"
+            value="{{txtDescription}}"
+            label-hint="Enter Desc"
+            label-edge="inside">
+          </oj-input-text>
+          </div>
+          <div style="margin-bottom: 15px; width:200px" class="oj-flex-item oj-sm-padding-2x-horizontal">
+            <oj-select-single data="[[statusDP]]" value="{{chkCompleted}}" label-hint="Status"></oj-select-single>
           </div>
         </div>
-        
+
+        <div slot="footer">
+          <oj-button id="okButton" on-oj-action="[[close]]">Cancel</oj-button>
+          <oj-button id="closeButton" on-oj-action="[[addAction]]">Add</oj-button>
+        </div>
+      </oj-dialog>
+      <oj-button style="margin-top: 100px; margin-bottom: 20px; margin-left: 10px;" id="buttonOpener" on-oj-action="[[open]]">Add Task</oj-button>
+
+      <oj-dialog id="editModalDialog" dialog-title="Edit Task" aria-describedby="desc">
+        <div slot="body">
+          <div style="width:180px" class="oj-flex-item oj-sm-padding-2x-horizontal">
+            <oj-input-text
+            style="margin-bottom: 15px"
+            id="inputTask"
+            value="{{txtTask}}"
+            label-hint="Enter Task"
+            label-edge="inside">
+            </oj-input-text>
+          </div>
+          <div style="width:400px" class="oj-flex-item oj-sm-padding-2x-horizontal">
+            <oj-input-text
+            style="margin-bottom: 15px"
+            id="inputDesc"
+            value="{{txtDescription}}"
+            label-hint="Enter Desc"
+            label-edge="inside">
+          </oj-input-text>
+          </div>
+          <div style="margin-bottom: 15px; width:200px" class="oj-flex-item oj-sm-padding-2x-horizontal">
+            <oj-select-single data="[[statusDP]]" value="{{chkCompleted}}" label-hint="Status"></oj-select-single>
+  
+          </div>
+        </div>
+        <div slot="footer">
+          <oj-button id="editCancelButton1" on-oj-action="[[closeEditDialog]]">Cancel</oj-button>
+          <oj-button id="editSaveButton" on-oj-action="[[editAction]]">Save</oj-button>
+        </div>
+      </oj-dialog>
+    
+      
+
+       <div class="content-container">
+        <div >
+          <div style="width:400px; margin-bottom: 20px; margin-top: 10px;" class="oj-flex-item oj-sm-padding-2x-horizontal">
+          
+            <label for="search"></label>
+            <oj-input-text
+            style="width: 1000px"
+            id="searchInput"
+            value="{{searchQuery}}"
+            label-hint="Search"
+            label-edge="inside">
+          </oj-input-text>
+        </div>
+          
       <oj-table
         id="table"
         aria-label=" Table"
@@ -72,53 +113,70 @@
         scroll-policy-options='{"fetchSize": 10}'
         columns-default.resizable="disabled"
         columns-default.sortable="disabled"
-        columns='[{"headerText": "ID", 
-                   "field": "id",
-                   "frozenEdge": "start",
-                   "id": "id"},
-
+        columns='[
                   {"headerText": "Task",
                   "field": "name",
-                   "minWidth": "12rem",
+                   "minWidth": "10rem",
                    "id": "name"},
                   
                    {"headerText": "Description",
                    "field": "description",
-                    "minWidth": "12rem",
+                    "minWidth": "20rem",
                     "id": "description"},
-                  
-                  {"headerText": "Status", 
+                   
+                   {"headerText": "Status", 
                    "field": "completed",
                    "minWidth": "8rem",
-                   "id": "status"},
-                   
-                  {"headerText": "Action",
-                  "frozenEdge": "end",
-                    "minWidth": "5rem",
-                    "headerClassName": "oj-helper-text-align-end",
-                    "className":"oj-helper-text-align-end",
-                    "template": "actionTemplate1",
-                    "id": "action"},
+                   "id": "status",
+                   "template": "statusTemplate"},
 
-                    {
-                    "frozenEdge": "end",
-                      "minWidth": "5rem",
-                      "headerClassName": "oj-helper-text-align-end",
-                      "className":"oj-helper-text-align-end",
-                      "template": "actionTemplate2",
-                      "id": "action"}
-
+                  {"headerText": "Action",      
+                        "frozenEdge": "end",
+                          "minWidth": "5rem",
+                          "headerClassName": "oj-helper-text-align-end",
+                          "className":"oj-helper-text-align-end",
+                          "template": "actionTemplate",
+                          "id": "action"}
                 ]'>
-       
-        <template slot="actionTemplate1" data-oj-as="cell">
-          <oj-button id="editbutton" chroming="callToAction" on-oj-action= "[[editAction]]" >Edit</oj-button>
-        </template>
+               
+                
 
-        <template slot="actionTemplate2" data-oj-as="cell">         
-          <oj-button id="deletebutton" chroming="callToAction" on-oj-action= "[[deleteAction]]" >Delete</oj-button>
-        </template>
-    
+                <template slot="statusTemplate" data-oj-as="cell">
+                  <oj-checkboxset
+                    id="statusCheckbox"
+                    value="{{cell.data ? ['agree'] : []}}"
+                    disabled>
+                    <oj-option value="agree"></oj-option>
+                  </oj-checkboxset>
+                </template>
+                
+
+
+                <template slot="actionTemplate" data-oj-as="cell">
+                  <oj-menu-button
+                    chroming="borderless"
+                    class="oj-button-sm"
+                    display="icons"
+                    data-oj-clickthrough="disabled">
+                    Action
+                    <oj-menu slot="menu" on-oj-menu-action="[[menuListener]]">
+                    
+                      <oj-option value="edit">
+                      
+                        Edit
+                      </oj-option>
+                      <oj-option value="delete">
+                        
+                        Delete
+                      </oj-option>
+                    </oj-menu>
+                  </oj-menu-button>
+                </template>
+        
+      
       </oj-table>
+    
+          
       </div>
       </div>
     </div>
