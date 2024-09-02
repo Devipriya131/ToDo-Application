@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en-us">
   <head>
     <title>Oracle JET Starter </title>
@@ -86,8 +85,6 @@
         </div>
       </oj-dialog>
     
-      
-
        <div class="content-container">
         <div >
           <div style="width:400px; margin-bottom: 20px; margin-top: 10px;" class="oj-flex-item oj-sm-padding-2x-horizontal">
@@ -130,6 +127,11 @@
                    "id": "status",
                    "template": "statusTemplate"},
 
+                   {"headerText": "Tags", 
+                   "minWidth": "8rem",
+                   "id": "status",
+                   "template": "tagsTemplate"},
+
                   {"headerText": "Action",      
                         "frozenEdge": "end",
                           "minWidth": "5rem",
@@ -139,8 +141,6 @@
                           "id": "action"}
                 ]'>
                
-                
-
                 <template slot="statusTemplate" data-oj-as="cell">
                   <oj-checkboxset
                     id="statusCheckbox"
@@ -149,9 +149,17 @@
                     <oj-option value="agree"></oj-option>
                   </oj-checkboxset>
                 </template>
+
+                <template slot="tagsTemplate">
+                  <oj-bind-for-each data="[[tagsArray]]">
+                    <template>
+                      <oj-badge class="oj-sm-margin-2x-end" chroming="solid">
+                        <span class="oj-badge oj-badge-info oj-badge-subtle" data-bind="text: $current.data"></span>
+                      </oj-badge>
+                    </template>
+                  </oj-bind-for-each>
+                </template>
                 
-
-
                 <template slot="actionTemplate" data-oj-as="cell">
                   <oj-menu-button
                     chroming="borderless"
@@ -160,22 +168,24 @@
                     data-oj-clickthrough="disabled">
                     Action
                     <oj-menu slot="menu" on-oj-menu-action="[[menuListener]]">
-                    
                       <oj-option value="edit">
-                      
                         Edit
                       </oj-option>
                       <oj-option value="delete">
-                        
                         Delete
                       </oj-option>
                     </oj-menu>
                   </oj-menu-button>
                 </template>
-        
-      
       </oj-table>
     
+      <oj-bind-for-each data="[[tagsArray]]">
+        <template>
+          <oj-badge class="oj-sm-margin-2x-end" chroming="solid">
+            <span class="oj-badge oj-badge-info oj-badge-subtle" data-bind="text: $current.data"></span>
+          </oj-badge>
+        </template>
+      </oj-bind-for-each>
           
       </div>
       </div>

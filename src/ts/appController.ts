@@ -35,6 +35,7 @@ class RootViewModel {
   editTask: ko.Observable<TaskData>;
   currentColor: ko.ObservableArray<string>;
   agreement: ko.ObservableArray<string>;
+  tagsArray: ko.ObservableArray<string>;
 
   private readonly taskArray = ko.observableArray<TaskData>([]);
   private readonly statusdata = [
@@ -204,6 +205,7 @@ class RootViewModel {
     this.chkCompleted = ko.observable(false);
     this.searchQuery = ko.observable('');
     this.editTask = ko.observable<TaskData>({ id: 0, name: '', description: '', completed: false }); 
+    this.tagsArray = ko.observableArray(['Tag1', 'Tag2', 'Tag3', 'Tag4']);
 
     this.fetchTasks();  
     const query = this.searchQuery().toLowerCase();
