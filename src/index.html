@@ -24,7 +24,7 @@
        
       <oj-dialog id="modalDialog1" dialog-title="Add Task" aria-describedby="desc">
         <div slot="body">
-          <div style="width:180px" class="oj-flex-item oj-sm-padding-2x-horizontal">
+          <div style="width:250px" class="oj-flex-item oj-sm-padding-2x-horizontal">
             <oj-input-text
             style="margin-bottom: 15px"
             id="inputTask"
@@ -33,6 +33,7 @@
             label-edge="inside">
             </oj-input-text>
           </div>
+          
           <div style="width:400px" class="oj-flex-item oj-sm-padding-2x-horizontal">
             <oj-input-text
             style="margin-bottom: 15px"
@@ -42,6 +43,27 @@
             label-edge="inside">
           </oj-input-text>
           </div>
+
+          <div style="width:200px" class="oj-flex-item oj-sm-padding-2x-horizontal">
+            <div class="oj-flex oj-sm-padding-2x-horizontal" style="align-items: center; width:400px; margin-left: 0px;">
+            <div class="oj-flex-item" style="flex: 1; margin-right: 10px;">
+            <oj-input-text
+              style="margin-bottom: 15px"
+              id="inputTag"
+              value="{{newTag}}"
+              label-hint="Enter a Tag"
+              label-edge="inside">
+            </oj-input-text>
+            </div>
+            <oj-button on-oj-action="[[addTagAction]]">Add Tag</oj-button>
+          </div>
+            <div data-bind="foreach: tagsArray">
+              <oj-badge chroming="solid" class="oj-sm-margin-2x-end" style="display: block; padding-bottom: 5px;">
+                <span class="oj-badge oj-badge-info oj-badge-subtle" data-bind="text: $data"></span>
+              </oj-badge>
+            </div>
+          </div>
+
           <div style="margin-bottom: 15px; width:200px" class="oj-flex-item oj-sm-padding-2x-horizontal">
             <oj-select-single data="[[statusDP]]" value="{{chkCompleted}}" label-hint="Status"></oj-select-single>
           </div>
@@ -52,7 +74,7 @@
           <oj-button id="closeButton" on-oj-action="[[addAction]]">Add</oj-button>
         </div>
       </oj-dialog>
-      <oj-button style="margin-top: 100px; margin-bottom: 20px; margin-left: 10px;" id="buttonOpener" on-oj-action="[[open]]">Add Task</oj-button>
+      <oj-button style="margin-top: 30px; margin-bottom: 20px; margin-left: 10px;" id="buttonOpener" on-oj-action="[[open]]">Add Task</oj-button>
 
       <oj-dialog id="editModalDialog" dialog-title="Edit Task" aria-describedby="desc">
         <div slot="body">
@@ -98,7 +120,7 @@
             label-edge="inside">
           </oj-input-text>
         </div>
-          
+  
       <oj-table
         id="table"
         aria-label=" Table"
@@ -114,23 +136,30 @@
                   {"headerText": "Task",
                   "field": "name",
                    "minWidth": "10rem",
-                   "id": "name"},
+                   "id": "name",
+                   "headerStyle": "white-space: normal; word-wrap: break-word;",
+                   "style": "white-space: normal; word-wrap: break-word;"},
                   
                    {"headerText": "Description",
                    "field": "description",
                     "minWidth": "20rem",
-                    "id": "description"},
+                    "id": "description",
+                    "headerStyle": "white-space: normal; word-wrap: break-word;",
+                    "style": "white-space: normal; word-wrap: break-word;"},
                    
                    {"headerText": "Status", 
                    "field": "completed",
-                   "minWidth": "8rem",
+                   "minWidth": "5rem",
                    "id": "status",
                    "template": "statusTemplate"},
 
                    {"headerText": "Tags", 
-                   "minWidth": "8rem",
-                   "id": "status",
-                   "template": "tagsTemplate"},
+                   "field": "tags",
+                   "minWidth": "20rem",
+                   "id": "tags",
+                   "template": "tagsTemplate",
+                   "headerStyle": "white-space: normal; word-wrap: break-word;",
+                   "style": "white-space: normal; word-wrap: break-word;"},
 
                   {"headerText": "Action",      
                         "frozenEdge": "end",
@@ -150,8 +179,8 @@
                   </oj-checkboxset>
                 </template>
 
-                <template slot="tagsTemplate">
-                  <oj-bind-for-each data="[[tagsArray]]">
+                <template slot="tagsTemplate" data-oj-as="cell">
+                  <oj-bind-for-each data="[[cell.data]]">
                     <template>
                       <oj-badge class="oj-sm-margin-2x-end" chroming="solid">
                         <span class="oj-badge oj-badge-info oj-badge-subtle" data-bind="text: $current.data"></span>
@@ -159,7 +188,7 @@
                     </template>
                   </oj-bind-for-each>
                 </template>
-                
+
                 <template slot="actionTemplate" data-oj-as="cell">
                   <oj-menu-button
                     chroming="borderless"
@@ -178,14 +207,6 @@
                   </oj-menu-button>
                 </template>
       </oj-table>
-    
-      <oj-bind-for-each data="[[tagsArray]]">
-        <template>
-          <oj-badge class="oj-sm-margin-2x-end" chroming="solid">
-            <span class="oj-badge oj-badge-info oj-badge-subtle" data-bind="text: $current.data"></span>
-          </oj-badge>
-        </template>
-      </oj-bind-for-each>
           
       </div>
       </div>

@@ -22,6 +22,7 @@ interface TaskData {
   name: string;
   description: string;
   completed: boolean;
+  tags: string[];
 }
 
 class RootViewModel {
@@ -36,8 +37,10 @@ class RootViewModel {
   currentColor: ko.ObservableArray<string>;
   agreement: ko.ObservableArray<string>;
   tagsArray: ko.ObservableArray<string>;
+  newTag: ko.Observable<string>;
 
   private readonly taskArray = ko.observableArray<TaskData>([]);
+
   private readonly statusdata = [
     { value: true, label: 'Open' },
     { value: false, label: 'Completed' }
@@ -83,7 +86,7 @@ class RootViewModel {
   ) => {
     const taskToDelete = context.item.data;
 
-    fetch(`http://localhost:8080/tasks/${taskToDelete.id}`, {
+    fetch(`http://localhost:8080/tasksNew/${taskToDelete.id}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -118,7 +121,8 @@ class RootViewModel {
       id: this.txtID(), 
       name: this.txtTask(),
       description: this.txtDescription(),
-      completed: this.chkCompleted()
+      completed: this.chkCompleted(),
+      tags: this.tagsArray()
     };
     alert(JSON.stringify(newTask))
     alert("http://localhost:8080/tasks/${newTask.id}")
@@ -168,11 +172,12 @@ class RootViewModel {
       id: 0, 
       name: this.txtTask(),
       description: this.txtDescription(),
-      completed: this.chkCompleted()
+      completed: this.chkCompleted(),
+      tags: this.tagsArray()
     };
     alert(JSON.stringify(newTask))
 
-    fetch('http://localhost:8080/tasks', {
+    fetch('http://localhost:8080/tasksNew', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -197,15 +202,16 @@ class RootViewModel {
 
   constructor() {
     this.currentColor = ko.observableArray(['red']);
-      this.agreement = ko.observableArray();
+    this.agreement = ko.observableArray();
     this.value = ko.observable('');
     this.txtID = ko.observable(0);
     this.txtTask = ko.observable('');
     this.txtDescription = ko.observable('');
     this.chkCompleted = ko.observable(false);
     this.searchQuery = ko.observable('');
-    this.editTask = ko.observable<TaskData>({ id: 0, name: '', description: '', completed: false }); 
-    this.tagsArray = ko.observableArray(['Tag1', 'Tag2', 'Tag3', 'Tag4']);
+    this.editTask = ko.observable<TaskData>({ id: 0, name: '', description: '', completed: false, tags: ["j"] }); 
+    this.tagsArray = ko.observableArray<string>([]); 
+    this.newTag = ko.observable('');
 
     this.fetchTasks();  
     const query = this.searchQuery().toLowerCase();
@@ -221,8 +227,8 @@ class RootViewModel {
  
 
   private fetchTasks() {
-   
-    fetch('http://localhost:8080/tasks')
+
+    fetch('http://localhost:8080/tasksNew')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -237,10 +243,27 @@ class RootViewModel {
       });
   }
 
+  addTagAction = () => {
+    const tag = this.newTag().trim();
+    if (tag && !this.tagsArray().includes(tag)) {
+      this.tagsArray.push(tag);
+      this.newTag(''); 
+    }
+  };
+
+  handleTagKeyDown = (data: any, event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      this.addTagAction();
+      return false; 
+    }
+    return true;
+  };
+
   private clearForm() {
     this.txtTask('');
     this.txtDescription(''); 
     this.chkCompleted(false);
+    this.tagsArray([]);
   }
 }
 
